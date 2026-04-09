@@ -1,0 +1,20 @@
+package com.neu.deliveryPlatform.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.neu.deliveryPlatform.entity.OrderCommodity;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+* @author Asia
+* @description 针对表【order_commodity(订单-商品中间表)】的数据库操作Mapper
+* @createDate 2023-04-05 17:25:22
+* @Entity com.neu.deliveryPlatform.entity.OrderCommodity
+*/
+@Mapper
+public interface OrderCommodityMapper extends BaseMapper<OrderCommodity> {
+
+}
+
+
+
+

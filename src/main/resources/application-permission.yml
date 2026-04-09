@@ -1,0 +1,30 @@
+# 权限相关
+buxiwan:
+  authority:
+    roleAdmin: 1
+    roleUser: 2
+    roleRider: 3
+    roleShopkeeper: 4
+  # 无需鉴权的接口
+  nonFilterPath:
+    - /api/user/login
+    - /api/user/adminLogin
+    - /api/user/refreshToken
+    - /msg/jdt
+    - /websocket/**
+  #需要jwt（user角色）才能访问
+  jwtFilterPath:
+    - /api/**
+  #静态资源，直接放行
+  staticSource:
+    - /swagger-resources/**
+    - /webjars/**
+    - /v2/api-docs
+    - /v3/api-docs
+    - /swagger-ui/**
+    - /swagger-ui.html
+    - /api/file/getImage/*
+  # token过期时间
+  accessTokenExpiration: '86400000' #一天
+  refreshTokenExpiration: '2592000000' #30天
+

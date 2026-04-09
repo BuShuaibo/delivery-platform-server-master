@@ -1,0 +1,20 @@
+logging:
+  level:
+    com.neu.deliveryPlatform: error
+  file:
+    path: logs
+
+# 文件上传
+file:
+  upload-path: '/docker/app/delivery_platform/file-system'
+  server-address: 'https://www.asiawu.cn:8000/'
+
+
+spider:
+  # 驱动位置
+  driver:
+    linux: /usr/local/bin/chromedriver
+    windows: src/main/resources/driver/chromedriver.exe
+  # 爬虫频率
+  schedule:
+    delay: 60000

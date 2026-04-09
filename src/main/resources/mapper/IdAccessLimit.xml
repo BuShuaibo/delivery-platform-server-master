@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.deliveryPlatform.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.neu.deliveryPlatform.entity.User">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="gender" column="gender" jdbcType="TINYINT"/>
+        <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/>
+        <result property="studentId" column="student_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,openid,username,
+        nickname,phone,create_time,
+        update_time,gender,is_deleted,
+        avatar_url,rider_active,student_id
+    </sql>
+    <update id="updateRiderStatus" parameterType="long">
+        update sys_user
+        set rider_active= -rider_active + 1
+        where id = #{id}
+    </update>
+    <update id="clearRiderRemaining" parameterType="long">
+        update sys_user
+        set rider_remaining = 0.00
+        where id = #{id}
+    </update>
+    <update id="updateRiderRemaining">
+        update sys_user
+        set rider_remaining = rider_remaining + #{riderRemaining}
+        where id = #{id}
+    </update>
+    <update id="incrRiderTotalOrderQuantity">
+        update sys_user
+        set total_order_quantity=total_order_quantity + 1
+        where id = #{riderId}
+    </update>
+    <update id="incrRiderOrderFulfillment">
+        update sys_user
+        set order_fulfillment=order_fulfillment + 1
+        where id = #{riderId}
+    </update>
+    <select id="getAuthorities" parameterType="long" resultType="java.lang.String">
+        select distinct m.perm_key
+        from sys_user u
+                 left join sys_user_role ur on u.id = ur.user_id
+                 left join sys_role r on ur.role_id = r.id
+                 left join sys_role_menu rm on r.id = rm.role_id
+                 left join sys_menu m on rm.menu_id = m.id
+        where u.id = #{id}
+    </select>
+    <select id="getRoles" parameterType="long" resultType="java.lang.String">
+        select distinct r.role_key
+        from sys_user u
+                 left join sys_user_role ur on u.id = ur.user_id
+                 left join sys_role r on ur.role_id = r.id
+        where u.id = #{id}
+    </select>
+    <select id="selectRiders" resultType="com.neu.deliveryPlatform.entity.User">
+        select u.*
+        from sys_role r
+                 left join sys_user_role ur on r.id = ur.role_id
+                 left join sys_user u on ur.user_id = u.id
+        where r.id = 3
+    </select>
+</mapper>

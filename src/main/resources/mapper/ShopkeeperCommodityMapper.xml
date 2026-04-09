@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.deliveryPlatform.mapper.ShopkeeperCommodityMapper">
+
+    <resultMap id="BaseResultMap" type="com.neu.deliveryPlatform.entity.ShopkeeperCommodity">
+            <result property="shopkeeperId" column="shopkeeper_id" jdbcType="BIGINT"/>
+            <result property="commodityId" column="commodity_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        shopkeeper_id,commodity_id
+    </sql>
+
+
+    <select id="getShopkeeperCommodity" resultType="com.neu.deliveryPlatform.entity.Commodity">
+        SELECT
+            sys_commodity.*
+        FROM
+            sys_shopkeeper_commodity
+                LEFT JOIN sys_commodity ON sys_shopkeeper_commodity.commodity_id = sys_commodity.id
+        WHERE
+            sys_shopkeeper_commodity.shopkeeper_id = #{id}
+        ORDER BY
+            sys_commodity.id
+            LIMIT #{current},#{size};
+    </select>
+
+
+</mapper>

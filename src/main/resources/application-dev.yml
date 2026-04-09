@@ -1,0 +1,21 @@
+logging:
+  level:
+    com.neu.deliveryPlatform: debug
+# 打印sql语句
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 文件上传
+file:
+  upload-path: 'C:\Users\21926\Desktop\All\temp\'
+  server-address: http://localhost:8000/
+
+spider:
+  # 驱动位置
+  driver:
+    linux: /usr/local/bin/chromedriver
+    windows: src/main/resources/driver/chromedriver.exe
+  # 爬虫频率
+  schedule:
+    delay: 60000

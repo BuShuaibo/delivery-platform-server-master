@@ -1,0 +1,35 @@
+server:
+  port: 8000
+
+spring:
+    # 低版本springboot兼容swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  profiles:
+    active: permission,dev
+
+# 微信相关
+wechat:
+  #小程序appid
+  appid: wxbf1cfa4c70711c63
+  #小程序密钥
+  secret: b83196b0bd10e3280a5ed04be14fd52c
+  # 授权类型，固定为authorization_code
+  grantType: authorization_code
+
+# 异步分配利润策略（threadPool/Mq)
+remunerationSharingMode: threadPool
+
+# 商品实体类的字段名对应 excel 的列名
+excel-column:
+  name: 产品名称
+  description: 卖点描述
+  price: 价格
+  sales: 销量
+  id: 产品详情链接
+  categoryId: 分类名称
+
+order:
+  upperLimit: 5
+

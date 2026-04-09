@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.deliveryPlatform.mapper.CommodityMapper">
+    <select id="getAllBrief" resultType="com.neu.deliveryPlatform.entity.Commodity">
+        select id, name, img_url, price, sales
+        from sys_commodity;
+    </select>
+
+    <insert id="InsertOrUpdate" parameterType="com.neu.deliveryPlatform.entity.Commodity">
+        INSERT INTO sys_commodity(id, img_url, name, description, price, update_time, sales, is_available, weight,
+                                  category_id)
+        VALUES (#{id}, #{imgUrl}, #{name}, #{description}, #{price}, #{updateTime}, #{sales}, #{isAvailable}, #{weight},
+                #{categoryId})
+        ON DUPLICATE KEY UPDATE name=#{name},
+                                description=#{description},
+                                price=#{price},
+                                update_time=#{updateTime},
+                                sales=#{sales},
+                                is_available=#{isAvailable},
+                                category_id=#{categoryId};
+    </insert>
+
+    <select id="getCategoryIdByName" resultType="long" parameterType="string">
+        select id
+        from sys_category
+        where sys_category.category_name = #{categoryName};
+    </select>
+
+</mapper>

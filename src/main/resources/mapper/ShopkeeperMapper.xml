@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.deliveryPlatform.mapper.ShopkeeperMapper">
+
+    <resultMap id="BaseResultMap" type="com.neu.deliveryPlatform.entity.Shopkeeper">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="sales" column="sales" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="phone" column="phone" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+            <result property="isAvailable" column="is_available" jdbcType="TINYINT"/>
+            <result property="locationId" column="location_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,sales,name,
+        description,phone,create_time,
+        update_time,start_time,end_time,
+        is_available
+    </sql>
+
+    <select id="getUserIdByShopkeeperId" resultType="Long">
+        SELECT
+            sys_user.id
+        FROM
+            sys_user , sys_shopkeeper
+        WHERE
+            sys_shopkeeper.id = #{id} AND
+            sys_shopkeeper.id = sys_user.shopkeeper_id
+    </select>
+</mapper>

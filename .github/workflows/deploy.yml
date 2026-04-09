@@ -1,0 +1,39 @@
+name: 项目打包部署
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    if: github.repository == 'NEUQer-Tech/delivery-platform-server'
+    runs-on: ubuntu-latest
+    steps:
+    - name: 拉取最新提交的代码
+      uses: actions/checkout@v3
+    - name: 设置jdk
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: 运行与分析测试用例
+      run: |
+        cd ./
+        mvn clean test cobertura:cobertura
+
+    - name: 项目打包
+      run: |
+        cd ./
+        mvn package
+
+    - name: 删除旧的jar包
+      run: sshpass -p ${{secrets.REMOTE_PWD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_IP}} "cd /docker/app/delivery_platform && rm -rf ./*.jar"
+
+    - name: 上传jar包到服务器中
+      run: sshpass -p ${{secrets.REMOTE_PWD}} scp -r -o StrictHostKeyChecking=no ./target/delivery-platform-server-0.0.1-SNAPSHOT.jar root@${{secrets.REMOTE_IP}}:/docker/app/delivery_platform
+
+    - name: 启动项目
+      run: sshpass -p ${{secrets.REMOTE_PWD}} ssh -o StrictHostKeyChecking=no root@${{secrets.REMOTE_IP}} "cd /docker/app/delivery_platform && chmod +x run.sh && ./run.sh"
